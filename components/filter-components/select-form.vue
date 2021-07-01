@@ -4,7 +4,7 @@
     <v-select
       v-model="selectedItem.value"
       :items="selectedItem.options"
-      :label="selectedItem.title"
+      :label="this.label"
     >
     </v-select>
 
@@ -14,13 +14,15 @@
 <script>
 export default {
   name: "selectForm",
+  data() {
+    return {
+      label:"(All "+ this.selectedItem.title+")"
+    }
+  },
   props: {
-    nuxtChildKey: {
+    selectedItem:{
       type :Object,
       default: ()=> {}
-    },
-    selectedItem:{
-
     }
 
   },

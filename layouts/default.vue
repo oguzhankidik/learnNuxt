@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-navigation-drawer
-      class="deep-purple accent-4"
+      class="darken-3"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -55,7 +55,7 @@
     <v-main>
       <v-container>
 
-        <Nuxt v-if="dataLoaded" :nuxt-child-key="posts"/>
+        <Nuxt />
 
       </v-container>
 
@@ -71,11 +71,8 @@
 </template>
 
 <script>
-import axios from "axios";
+
 export default {
-  created() {
-    this.getPosts()
-  },
   data () {
     return {
       clipped: false,
@@ -89,8 +86,8 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'IMDB Search',
+          to: `/imdbsearch`
         },
         {
           icon: 'mdi-chart-bubble',
@@ -113,20 +110,7 @@ export default {
     }
   },
   methods: {
-    async getPosts() {
-      let response = await axios.get("http://challenge.iperasolutions.com/filters");
-      response.data.forEach( item => {
-        if(item.type === 'select'){
-          item.value = null
-        } else if( item.type === 'text') {
-          item.value = ''
-        } else {
-          item.value = new Date().toISOString().slice(0,10)
-        }
-        this.posts.push(item)
-      })
-      this.dataLoaded = true;
-    },
+
 
   },
 }

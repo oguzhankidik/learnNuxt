@@ -4,7 +4,6 @@
     <v-text-field
       v-model="selectedItem.value"
       :label="selectedItem.title"
-      required
     ></v-text-field>
   </div>
 </template>
@@ -12,13 +11,12 @@
 <script>
 export default {
   name: "inputForm",
+
   props: {
-    nuxtChildKey: {
-      type: Object,
-      default: () => {
-      }
-    },
-    selectedItem:{}
+    selectedItem:{
+      type :Object,
+      default: ()=> {}
+    }
   }
 }
 </script>

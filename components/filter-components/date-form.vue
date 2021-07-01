@@ -1,7 +1,9 @@
 <template>
   <div>
     <label>{{ selectedItem.title }}</label>
-    <input type="date" v-model="selectedItem.value" >
+    <div class="mt-4">
+    <input type="date" v-model="selectedItem.value">
+    </div>
   </div>
 </template>
 
@@ -20,5 +22,7 @@ export default {
 </script>
 
 <style scoped>
-
+.mt-4{
+  color: white;
+}
 </style>
