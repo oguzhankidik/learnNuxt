@@ -95,7 +95,7 @@ export default {
           to: '/filters'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-chart-bar',
           title: 'Dashboard',
           to: '/dashboard'
         }
