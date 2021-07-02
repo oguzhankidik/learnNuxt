@@ -9,7 +9,7 @@
         Actors : {{detailedInfo.Actors}}
       </p>
 
-      <NuxtLink to="/filters">asfsa</NuxtLink>
+      <NuxtLink :to="{name:'detail' , params: {id:selectedItem.imdbID}}" >asfsa</NuxtLink>
     </div>
   </div>
 </template>
