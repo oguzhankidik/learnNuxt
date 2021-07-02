@@ -8,7 +8,7 @@
         Director : {{detailedInfo.Director}}<br>
         Actors : {{detailedInfo.Actors}}
       </p>
-      <v-btn :to="{name:'detail' , params: {id:selectedItem.imdbID}}">Details</v-btn>
+      <v-btn rounded :to="{name:'detail' , params: {id:selectedItem.imdbID}}">Details</v-btn>
 
     </div>
   </div>
