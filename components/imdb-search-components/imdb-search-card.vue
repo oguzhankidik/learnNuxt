@@ -8,8 +8,8 @@
         Director : {{detailedInfo.Director}}<br>
         Actors : {{detailedInfo.Actors}}
       </p>
+      <v-btn :to="{name:'detail' , params: {id:selectedItem.imdbID}}">Details</v-btn>
 
-      <NuxtLink :to="{name:'detail' , params: {id:selectedItem.imdbID}}" >asfsa</NuxtLink>
     </div>
   </div>
 </template>
