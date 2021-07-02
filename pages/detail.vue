@@ -1,20 +1,27 @@
 <template>
+  <div class="d-flex align-center pa-6">
+    <img class="card-img-top" :src="detailedInfo.Poster" alt="No poster found">
+    <div class="card ml-5">
 
-  <div>
-
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" :src="detailedInfo.Poster" alt="Poster can't be found.">
       <div class="card-body">
-        <h5 class="card-title">{{ detailedInfo.Title }}</h5>
-        <p class="card-text">
-          Release Date : {{detailedInfo.Released}}<br>
-          Director : {{detailedInfo.Director}}<br>
-          Actors : {{detailedInfo.Actors}}
-        </p>
+        <h1 class="card-title">{{detailedInfo.Title}}</h1>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Release Date : {{detailedInfo.Released}}</li>
+        <li class="list-group-item">Director : {{detailedInfo.Director}}</li>
+        <li class="list-group-item">Actors : {{detailedInfo.Actors}}</li>
+        <li class="list-group-item">Genre : {{detailedInfo.Genre}}</li>
+        <li class="list-group-item">Plot : {{detailedInfo.Plot}}</li>
+
+
+      </ul>
+      <div class="card-body ml-5">
+        <v-btn elevation="10" :href="imdbLink " class="card-link mt-5 ">IMDB Page  </v-btn>
 
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -25,29 +32,41 @@ export default {
   data() {
     return {
       detailedInfo: [],
-      test: '',
+      imdbLink:"https://www.imdb.com/title/",
+      movieID: '',
+      errorMessage:'',
       url: 'http://www.omdbapi.com/?',
       apiKey: '&apikey=6448bbcf',
     }
   },
+
+
   props: {
     selectedItem: {}
   },
+
+
   mounted() {
-    this.test = this.$route.params
-    this.url += 'i=' + this.test.id + this.apiKey
+    this.movieID = this.$route.params
+    this.url += 'i=' + this.movieID.id + this.apiKey
+    this.imdbLink+=this.movieID.id
     this.getData(this.url)
   },
+
+
   methods: {
     async getData(newUrl) {
       const response = await axios.get(newUrl);
       this.detailedInfo = response.data
 
+
     },
+
   }
 }
 </script>
 
 <style scoped>
+
 
 </style>

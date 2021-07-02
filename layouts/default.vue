@@ -53,11 +53,11 @@
 
     </v-app-bar>
     <v-main>
-      <v-container>
+
 
         <Nuxt />
 
-      </v-container>
+
 
     </v-main>
 
@@ -85,7 +85,7 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-search-web',
           title: 'IMDB Search',
           to: `/imdbsearch`
         },
