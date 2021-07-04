@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center pa-6">
+  <div class="d-flex align-center pa-6 page">
     <img class="card-img-top" :src="detailedInfo.Poster" alt="No poster found">
     <div class="card ml-5">
 
@@ -68,5 +68,7 @@ export default {
 
 <style scoped>
 
-
+.page{
+  height: 85vh;
+}
 </style>

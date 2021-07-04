@@ -1,15 +1,17 @@
 <template>
-  <div class="card" style="width: 18rem;">
-    <img class="card-img-top" :src="selectedItem.Poster" alt="Poster can't be found.">
-    <div class="card-body">
-      <h5 class="card-title">{{ selectedItem.Title }}</h5>
-      <p class="card-text">
-        Release Date : {{detailedInfo.Released}}<br>
-        Director : {{detailedInfo.Director}}<br>
-        Actors : {{detailedInfo.Actors}}
-      </p>
-      <v-btn rounded :to="{name:'detail' , params: {id:selectedItem.imdbID}}">Details</v-btn>
+  <div  class="row">
+    <div v-for="(item,index) in selectedItem.slice(this.min,this.max)" :key="index" class="card col" >
+      <v-img class="card-img-top mb-2" :src="item.Poster" width="300" height="400" alt="Poster can't be found."> </v-img>
+      <div class="card-body">
+        <h5 class="card-title">{{ item.Title }}</h5>
+        <p class="card-text">
+          Release Date : {{ item.Year }}<br>
+          Type : {{ item.Type }}
+        </p>
+        <v-btn rounded :to="{name:'detail' , params: {id:item.imdbID}}">Details</v-btn>
 
+
+      </div>
     </div>
   </div>
 </template>
@@ -21,35 +23,40 @@ export default {
   name: "selectedItem",
   data() {
     return {
-      detailedInfo:[],
+      perPage:5,
+      pageLimit:5,
       apiKey: '&apikey=6448bbcf',
-      url:'http://www.omdbapi.com/?'
+      url: 'http://www.omdbapi.com/?'
     }
   },
-  created() {
-   this.detailInfo()
-  },
-  props:{
-    selectedItem:{
-      type:Object,
-      default:()=>{}
-    }
-  },
-  methods:{
-    async getData(newUrl) {
-      const response = await axios.get(newUrl);
-      this.detailedInfo = response.data
-
+  props: {
+    min:{
+      type:Number
     },
-
-    detailInfo(){
-      this.url+='i='+this.selectedItem.imdbID+this.apiKey
-      this.getData(this.url)
+    max:{
+      type:Number
+    },
+    selectedItem: {
+      type: Array,
+      default: () => {
+      },
+      required:true
     }
+  },
+  methods: {
+
   }
 }
 </script>
 
 <style scoped>
+
+.card-img-top{
+  border-radius: 10px;
+}
+.card:hover{
+  transform: scale(1.05);
+
+}
 
 </style>
