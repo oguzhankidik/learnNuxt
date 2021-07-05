@@ -90,8 +90,6 @@
       </div>
       <v-btn
         class="pageButtons mt-1"
-        ripple="false"
-        v-ripple:false
         plain
         @click="pageUp"
       >
@@ -114,9 +112,9 @@ import axios from "axios";
 import imdbSearchCard from "~/components/imdb-search-components/imdb-search-card";
 
 export default {
-  //hızlı sayfa değişince patlıyor
-  //sayfayı gösteren select kötü
-  //kod gereksiz uzun ?
+          //hızlı sayfa değişince patlıyor
+          //sayfayı gösteren select kötü
+          //kod gereksiz uzun ?
   components: {imdbSearchCard},
   data() {
     return {
@@ -126,7 +124,7 @@ export default {
       },
       firstPage: false,
       secondPage: false,
-      pageGenerate: true,
+
       imdbResults: [],
       dataLoaded: false,
       apiKey: '&apikey=6448bbcf',
@@ -147,7 +145,7 @@ export default {
       const response = await axios.get(newUrl);
       this.imdbResults = response.data
       this.generateErrorMessage()
-      console.log(Math.ceil(34 / 5))
+
       if (this.firstPage) {
         this.setMinMaxFirst()
         this.firstPage = false
@@ -162,27 +160,21 @@ export default {
 
     dropdownPageNumber() {
       this.pages = []
-      if (this.imdbResults.totalResults > 50) {
-        for (let i = 0; i < 10; i++) {
-          this.pages[i] = i + 1
-        }
-      } else {
-        let a = Math.ceil(this.imdbResults.totalResults / 5)
-        console.log(a)
-        for (let i = 0; i < a; i++) {
-          this.pages[i] = i + 1;
-        }
+      if(this.imdbResults.totalResults>50){
+          this.a=10
+      }
+      else this.a=Math.ceil(this.imdbResults.totalResults / 5)
+      for (let i = 0; i < this.a; i++) {
+        this.pages[i] = i + 1;
       }
 
     },
     pageDown() {
       if (this.pageCount === 1 && this.min === 0) {
-        console.log(this.pageCount === 1)
-        console.log(this.min === 0)
       } else if (this.min === 5) {
         this.pageCount -= 1
         this.setMinMaxFirst()
-      } else if (this.pageCount !== 1 && this.min === 0) {
+      } else if (this.min === 0) {
         this.pageCount -= 1
         this.changePage()
       }
@@ -213,14 +205,7 @@ export default {
         this.firstPage = true
 
       }
-      let abc = {
-        s: this.searchParams.s,
-        y: this.searchParams.y,
-        type: this.searchParams.type,
-        page: this.searchParams.page
-      }
-      let data = new URLSearchParams(abc)
-      this.finalUrl += data + this.apiKey
+      this.generateFinalUrl()
       this.getData(this.finalUrl)
 
 
@@ -238,14 +223,7 @@ export default {
       this.pageCount = 1
       this.setMinMaxFirst()
       this.finalUrl = 'https://omdbapi.com/?'
-      let abc = {
-        s: this.searchParams.s,
-        y: this.searchParams.y,
-        type: this.searchParams.type,
-        page: this.searchParams.page
-      }
-      let data = new URLSearchParams(abc)
-      this.finalUrl += data + this.apiKey
+      this.generateFinalUrl()
       this.getData2(this.finalUrl)
     },
     async getData2(newUrl) {
@@ -254,6 +232,17 @@ export default {
 
       this.generateErrorMessage()
       this.dropdownPageNumber()
+    },
+
+    generateFinalUrl(){
+      let params = {
+        s: this.searchParams.s,
+        y: this.searchParams.y,
+        type: this.searchParams.type,
+        page: this.searchParams.page
+      }
+      let data = new URLSearchParams(params)
+      this.finalUrl += data + this.apiKey
     },
 
     setMinMaxFirst() {

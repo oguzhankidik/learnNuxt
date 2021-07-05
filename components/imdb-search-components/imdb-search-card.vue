@@ -58,5 +58,12 @@ export default {
   transform: scale(1.05);
 
 }
+.card-title{
+
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 1.8em;
+  line-height: 1.8em;
+}
 
 </style>
