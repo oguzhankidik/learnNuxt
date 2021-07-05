@@ -118,10 +118,7 @@ export default {
   components: {imdbSearchCard},
   data() {
     return {
-      pageCount: {
-        type:Number,
-        index:1
-      },
+      pageCount: 1,
       firstPage: false,
       secondPage: false,
 
