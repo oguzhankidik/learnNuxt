@@ -251,8 +251,10 @@ export default {
 <style scoped>
 
 .form-select{
+  width: 90%;
   font-weight: bold;
   text-align-last:center;
+  margin-top: 1px;
   border: transparent;
   color: white;
 }
@@ -267,6 +269,7 @@ export default {
 
 .form-select:focus{
   color: grey;
+  outline: none;
   border: transparent;
 }
 .pageButtons:hover{
