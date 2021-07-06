@@ -2,38 +2,22 @@
 
   <div class="pa-6">
 
-    <v-row>
-
-      <v-col
-
-        cols="12"
-        sm="12"
-        md="3"
-      >
+    <div class="row no-gutters">
+      <div class="col">
         <v-text-field
           outlined
           v-model="searchParams.s"
           label="enter a title"
         ></v-text-field>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-col
-        cols="12"
-        offset-md="0"
-        sm="12"
-        md="3"
-      >
+      </div>
+      <div class="col ml-5">
         <v-text-field
           outlined
           v-model="searchParams.y"
           label="enter a year"
         ></v-text-field>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-col
-        cols="12"
-        sm="12"
-        md="3">
+      </div>
+      <div class="col ml-5">
         <v-select
           outlined
           v-model="searchParams.type"
@@ -42,28 +26,24 @@
 
         >
         </v-select>
-      </v-col>
-      <v-col cols="12"
-             sm="12"
-             md="1"
-             offset-md="1">
+      </div>
+      <div class="col-1 ml-4">
         <v-btn
           outlined
-          block
+
           rounded
           x-large
-          class="pa-4"
           @click="searchClick"
         >Search
         </v-btn>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
 
 
     {{ errorMessage }}
     <imdb-search-card v-if="imdbResults.Response=='True'" :max="max" :min="min" class="mt-4"
                       :selectedItem="imdbResults.Search"/>
-    <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center mt-4">
+    <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center ">
       <v-btn
         class="pageButtons mt-1"
         @click="pageDown"
@@ -100,6 +80,11 @@
         </v-icon>
       </v-btn>
     </div>
+    <b-pagination
+      v-model="pageCount"
+      total-rows="2"
+      aria-controls="my-table"
+    ></b-pagination>
   </div>
 </template>
 
@@ -272,4 +257,5 @@ export default {
 .pageButtons:hover{
   color: red;
 }
+
 </style>

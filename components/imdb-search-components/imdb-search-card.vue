@@ -1,16 +1,14 @@
 <template>
-  <div  class="row">
+  <div  class="row no-gutters">
     <div v-for="(item,index) in selectedItem.slice(this.min,this.max)" :key="index" class="card col" >
-      <v-img class="card-img-top mb-2" :src="item.Poster" width="300" height="400" alt="Poster can't be found."> </v-img>
+      <v-img class="card-img-top mb-2" :src="item.Poster" width="280" height="400" alt="Poster can't be found."> </v-img>
       <div class="card-body">
         <h5 class="card-title">{{ item.Title }}</h5>
         <p class="card-text">
           Release Date : {{ item.Year }}<br>
           Type : {{ item.Type }}
         </p>
-        <v-btn rounded :to="{name:'detail' , params: {id:item.imdbID}}">Details</v-btn>
-
-
+        <v-btn class="mb-4" rounded :to="{name:'detail' , params: {id:item.imdbID}}">Details</v-btn>
       </div>
     </div>
   </div>
@@ -23,8 +21,6 @@ export default {
   name: "selectedItem",
   data() {
     return {
-      perPage:5,
-      pageLimit:5,
       apiKey: '&apikey=6448bbcf',
       url: 'http://www.omdbapi.com/?'
     }
@@ -54,16 +50,19 @@ export default {
 .card-img-top{
   border-radius: 10px;
 }
-.card:hover{
+.card-img-top:hover{
   transform: scale(1.05);
 
 }
 .card-title{
-
+  max-width: 300px;
   word-wrap: break-word;
   overflow: hidden;
   max-height: 1.8em;
   line-height: 1.8em;
+}
+.card-img-top{
+  border: 1px solid grey;
 }
 
 </style>
