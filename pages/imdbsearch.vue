@@ -41,7 +41,7 @@
 
 
     {{ errorMessage }}
-    <imdb-search-card v-if="imdbResults.Response=='True'" :max="max" :min="min" class="mt-4"
+    <imdb-search-card v-if="imdbResults.Response=='True'" :max="max" :min="min" class="movies ml-10 mt-4"
                       :selectedItem="imdbResults.Search"/>
     <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center mt-5">
       <v-btn
@@ -276,5 +276,6 @@ export default {
   color: red;
   border: transparent;
 }
+
 
 </style>

@@ -67,9 +67,6 @@ export default {
 .card-img-top{
   border: 1px solid grey;
 }
-.detail-button:hover{
-  transform: scale(1.1);
-}
 .nuxtlink{
   text-decoration: none;
   color: inherit;
