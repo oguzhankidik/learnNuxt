@@ -98,14 +98,13 @@ export default {
 
     dropdownPageNumber() {
       this.pages = []
-      if(this.imdbResults.totalResults>50){
-          this.a=10
+      if(this.imdbResults.totalResults>100){
+          this.a=10;
       }
-      else this.a=Math.ceil(this.imdbResults.totalResults / 5)
+      else this.a=Math.ceil(this.imdbResults.totalResults / 10)
       for (let i = 0; i < this.a; i++) {
         this.pages[i] = i + 1;
       }
-
     },
 
     changePage() {
@@ -134,7 +133,6 @@ export default {
     async getData2(newUrl) {
       const response = await axios.get(newUrl);
       this.imdbResults = response.data
-
       this.generateErrorMessage()
       this.dropdownPageNumber()
     },
