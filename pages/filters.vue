@@ -17,15 +17,16 @@
     </div>
     <v-divider class="mb-4"/>
     <div class="row">
-      <div v-for="(item,index3) in posts.slice(0,arrLimit)" class="col-lg-3" :key="index3">
+      <div v-for="(item,index3) in posts.slice(0,arrLimit)" class="col" :key="index3">
 
         <select-form v-if="item.type  === 'select'" :selectedItem="item"/>
         <input-form v-if="item.type  === 'text'" :selectedItem="item"/>
         <date-form v-if="item.type  === 'date'" :selectedItem="item"/>
       </div>
+    </div>
 
-<v-card-actions>
-      <div class="d-flex justify-content-end mt-5">
+<v-card-actions class="d-flex justify-content-end mt-5">
+      <div >
         <v-btn
           depressed
           elevation="9"
@@ -52,7 +53,7 @@
           </li>
         </ul>
       </div>
-    </div>
+
   </v-card>
 </template>
 

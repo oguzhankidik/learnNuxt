@@ -1,7 +1,7 @@
 <template>
-  <div  class="row no-gutters">
+  <div  class="row">
 
-    <div v-for="(item,index) in selectedItem.slice(this.min,this.max)" :key="index" class="card col" >
+    <div v-for="(item,index) in selectedItem" :key="index" class="card col" >
       <NuxtLink class="nuxtlink" :to="{name:'id-details' , params: {id:item.imdbID}}" >
       <v-img class="card-img-top mb-2" :src="item.Poster" width="280" height="400" alt="Poster can't be found."> </v-img>
       <div class="card-body">
@@ -29,12 +29,6 @@ export default {
     }
   },
   props: {
-    min:{
-      type:Number
-    },
-    max:{
-      type:Number
-    },
     selectedItem: {
       type: Array,
       default: () => {

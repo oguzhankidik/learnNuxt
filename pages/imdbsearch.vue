@@ -41,46 +41,19 @@
 
 
     {{ errorMessage }}
-    <imdb-search-card v-if="imdbResults.Response=='True'" :max="max" :min="min" class="movies ml-10 mt-4"
+    <imdb-search-card v-if="imdbResults.Response=='True'" class="movies ml-10 mt-4"
                       :selectedItem="imdbResults.Search"/>
-    <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center mt-5">
-      <v-btn
-        class="pageButtons "
-        @click="pageDown"
-        plain
-        :disabled="clicked"
-      >
-        <v-icon
-        >
-          mdi-arrow-left
-        </v-icon>
-      </v-btn>
-      <div class="pageCounter">
 
-        <select
-          class="form-select"
-          @change="changePage"
-          v-model=pageCount>
+    <div v-if="imdbResults.totalResults>5">
+    <v-pagination
 
-          <option
-            v-for="(item) in pages"
-            >
-            {{ item }}
-          </option>
-        </select>
-      </div>
-      <v-btn
-        class="pageButtons "
-        plain
-        :disabled="clicked"
-        @click="pageUp"
-      >
-        <v-icon
-          dark
-        >
-          mdi-arrow-right
-        </v-icon>
-      </v-btn>
+      circle
+      v-model="pageCount"
+      @input="changePage"
+      class="my-3"
+      :length="pages.length"
+      total-visible="5"
+    ></v-pagination>
     </div>
   </div>
 </template>
@@ -96,15 +69,11 @@ import imdbSearchCard from "~/components/imdb-search-components/imdb-search-card
 export default {
 
           //hızlı sayfa değişince patlıyor
-
           //kod gereksiz uzun ?
   components: {imdbSearchCard},
   data() {
     return {
       pageCount: 1,
-      firstPage: false,
-      secondPage: false,
-      clicked:false,
       imdbResults: [],
       dataLoaded: false,
       apiKey: '&apikey=6448bbcf',
@@ -115,9 +84,6 @@ export default {
       errorMessage: '',
       searchParams: {'s': '', 'y': '', 'type': '', 'page': 1},
       finalUrl: 'https://omdbapi.com/?',
-      min: 0,
-      max: 5,
-
     }
   },
 
@@ -127,16 +93,6 @@ export default {
       const response = await axios.get(newUrl);
       this.imdbResults = response.data
       this.generateErrorMessage()
-
-      if (this.firstPage) {
-        this.setMinMaxFirst()
-        this.firstPage = false
-      }
-      if (this.secondPage) {
-        this.setMinMaxSecond()
-        this.secondPage = false
-      }
-
       this.dataLoaded = true
     },
 
@@ -151,50 +107,10 @@ export default {
       }
 
     },
-    pageDown() {
-      if (this.pageCount === 1 && this.min === 0) {
-      } else if (this.min === 5) {
-        this.pageCount -= 1
-        this.setMinMaxFirst()
-      } else if (this.min === 0) {
-        this.pageCount -= 1
-        this.changePage()
-      }
-      this.clicked=true;
-      setTimeout(function(){
-        this.clicked = false;
-      }.bind(this),500);
-    },
-    pageUp() {
-      this.pageCount=parseInt(this.pageCount)
-      if (this.min === 0&&this.pageCount !== this.pages.length) {
-        this.setMinMaxSecond()
-        this.pageCount += 1
-      }
-      else if (this.min === 5&&this.pageCount !== this.pages.length) {
-        this.pageCount += 1
-        this.changePage()
-      }
-      this.clicked=true;
-
-      setTimeout(function(){
-        this.clicked = false;
-      }.bind(this),500);
-    },
 
     changePage() {
-
-
       this.finalUrl = 'https://omdbapi.com/?'
-      if (this.pageCount % 2 === 0) {
-        this.searchParams.page = Math.floor(this.pageCount / 2)
-        this.secondPage = true
-      }
-      if (this.pageCount % 2 === 1) {
-        this.searchParams.page = Math.ceil(this.pageCount / 2)
-        this.firstPage = true
-
-      }
+      this.searchParams.page=this.pageCount
       this.generateFinalUrl()
       this.getData(this.finalUrl)
 
@@ -211,7 +127,6 @@ export default {
     searchClick() {
       this.searchParams.page = 1
       this.pageCount = 1
-      this.setMinMaxFirst()
       this.finalUrl = 'https://omdbapi.com/?'
       this.generateFinalUrl()
       this.getData2(this.finalUrl)
@@ -235,47 +150,11 @@ export default {
       this.finalUrl += data + this.apiKey
     },
 
-    setMinMaxFirst() {
-      this.min = 0
-      this.max = 5
-    },
-    setMinMaxSecond() {
-      this.min = 5
-      this.max = 10
-    }
 
 
   }
 }
 </script>
 <style scoped>
-
-.form-select{
-  width: 90%;
-  font-weight: bold;
-  text-align-last:center;
-  margin-top: 1px;
-  border: transparent;
-  color: white;
-}
-.pageCounter{
-  text-align: center;
-  width:50px ;
-  border: 1px solid grey;
-  border-radius: 10px;
-  background: rgba(5,8,14,0.86);
-}
-
-
-.form-select:focus{
-  color: grey;
-  outline: none;
-  border: transparent;
-}
-.pageButtons:hover{
-  color: red;
-  border: transparent;
-}
-
 
 </style>
