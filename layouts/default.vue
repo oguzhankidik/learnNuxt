@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark class="app">
     <v-navigation-drawer
       class="darken-3"
       v-model="drawer"
@@ -55,7 +55,7 @@
     <v-main>
 
 
-        <Nuxt />
+        <Nuxt class="app"/>
 
 
 
@@ -115,3 +115,10 @@ export default {
   },
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Exo:wght@500&display=swap');
+.app{
+  font-family: 'Exo', sans-serif;
+  font-size: 18px;
+}
+</style>

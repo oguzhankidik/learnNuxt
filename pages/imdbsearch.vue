@@ -48,6 +48,7 @@
         class="pageButtons mt-1"
         @click="pageDown"
         plain
+        :disabled="clicked"
       >
         <v-icon
         >
@@ -57,7 +58,7 @@
       <div class="pageCounter">
 
         <select
-          class="form-select ml-2"
+          class="form-select ml-1"
           @change="changePage"
           v-model=pageCount>
 
@@ -71,6 +72,7 @@
       <v-btn
         class="pageButtons mt-1"
         plain
+        :disabled="clicked"
         @click="pageUp"
       >
         <v-icon
@@ -80,11 +82,6 @@
         </v-icon>
       </v-btn>
     </div>
-    <b-pagination
-      v-model="pageCount"
-      total-rows="2"
-      aria-controls="my-table"
-    ></b-pagination>
   </div>
 </template>
 
@@ -106,7 +103,7 @@ export default {
       pageCount: 1,
       firstPage: false,
       secondPage: false,
-
+      clicked:false,
       imdbResults: [],
       dataLoaded: false,
       apiKey: '&apikey=6448bbcf',
@@ -119,11 +116,13 @@ export default {
       finalUrl: 'https://omdbapi.com/?',
       min: 0,
       max: 5,
+
     }
   },
 
   methods: {
     async getData(newUrl) {
+
       const response = await axios.get(newUrl);
       this.imdbResults = response.data
       this.generateErrorMessage()
@@ -160,6 +159,10 @@ export default {
         this.pageCount -= 1
         this.changePage()
       }
+      this.clicked=true;
+      setTimeout(function(){
+        this.clicked = false;
+      }.bind(this),500);
     },
     pageUp() {
       this.pageCount=parseInt(this.pageCount)
@@ -171,7 +174,11 @@ export default {
         this.pageCount += 1
         this.changePage()
       }
+      this.clicked=true;
 
+      setTimeout(function(){
+        this.clicked = false;
+      }.bind(this),500);
     },
 
     changePage() {
@@ -235,27 +242,35 @@ export default {
       this.min = 5
       this.max = 10
     }
+
+
   }
 }
 </script>
 <style scoped>
-.pageCounter {
-  width: 10vh;
-  text-align: center;
-}
+
 .form-select{
   font-weight: bold;
-  color: whitesmoke;
+
+  border: transparent;
+  color: white;
+}
+.pageCounter{
+  text-align: center;
+  width:50px ;
+  border: 1px solid grey;
+  border-radius: 10px;
+  background: rgba(5,8,14,0.86);
 }
 
-.form-select:hover{
-  color: black;
-}
+
 .form-select:focus{
-  color: black;
+  color: grey;
+  border: transparent;
 }
 .pageButtons:hover{
   color: red;
+  border: transparent;
 }
 
 </style>
