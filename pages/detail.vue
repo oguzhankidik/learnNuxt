@@ -50,6 +50,7 @@ export default {
     this.url += 'i=' + this.movieID + this.apiKey
     this.imdbLink+=this.movieID.id
     this.getData(this.url)
+
   },
 
 
@@ -57,9 +58,12 @@ export default {
     async getData(newUrl) {
       const response = await axios.get(newUrl);
       this.detailedInfo = response.data
+      console.log(this.$route.redirectedFrom)
 
 
     },
+
+
 
   }
 }

@@ -3,21 +3,21 @@
   <div class="pa-6">
 
     <div class="row no-gutters">
-      <div class="col">
+      <div class="col  col-lg col-md ml-5  col-sm-12">
         <v-text-field
           outlined
           v-model="searchParams.s"
           label="enter a title"
         ></v-text-field>
       </div>
-      <div class="col ml-5">
+      <div class="col col-sm-12  col-lg col-md ml-5">
         <v-text-field
           outlined
           v-model="searchParams.y"
           label="enter a year"
         ></v-text-field>
       </div>
-      <div class="col ml-5">
+      <div class="col col-sm-12 col-lg col-md ml-5">
         <v-select
           outlined
           v-model="searchParams.type"
@@ -27,7 +27,7 @@
         >
         </v-select>
       </div>
-      <div class="col-1 ml-4">
+      <div class="col-1 col-sm-12 col-lg-1 col-md  ml-4">
         <v-btn
           outlined
 
@@ -45,15 +45,15 @@
                       :selectedItem="imdbResults.Search"/>
 
     <div v-if="imdbResults.totalResults>5">
-    <v-pagination
+      <v-pagination
 
-      circle
-      v-model="pageCount"
-      @input="changePage"
-      class="my-3"
-      :length="pages.length"
-      total-visible="5"
-    ></v-pagination>
+        circle
+        v-model="pageCount"
+        @input="changePage"
+        class="my-3"
+        :length="pages.length"
+        total-visible="5"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -68,8 +68,8 @@ import imdbSearchCard from "~/components/imdb-search-components/imdb-search-card
 
 export default {
 
-          //hızlı sayfa değişince patlıyor
-          //kod gereksiz uzun ?
+  //hızlı sayfa değişince patlıyor
+  //kod gereksiz uzun ?
   components: {imdbSearchCard},
   data() {
     return {
@@ -87,6 +87,13 @@ export default {
     }
   },
 
+  /*mounted() {
+    if (this.$route.query.s!==""){
+    let sasa = new URLSearchParams(this.$route.query)
+    console.log(sasa+"")
+    this.finalUrl += sasa + this.apiKey
+    this.getData2(this.finalUrl)}
+  },*/
   methods: {
     async getData(newUrl) {
 
@@ -98,10 +105,9 @@ export default {
 
     dropdownPageNumber() {
       this.pages = []
-      if(this.imdbResults.totalResults>100){
-          this.a=10;
-      }
-      else this.a=Math.ceil(this.imdbResults.totalResults / 10)
+      if (this.imdbResults.totalResults > 100) {
+        this.a = 10;
+      } else this.a = Math.ceil(this.imdbResults.totalResults / 10)
       for (let i = 0; i < this.a; i++) {
         this.pages[i] = i + 1;
       }
@@ -109,7 +115,7 @@ export default {
 
     changePage() {
       this.finalUrl = 'https://omdbapi.com/?'
-      this.searchParams.page=this.pageCount
+      this.searchParams.page = this.pageCount
       this.generateFinalUrl()
       this.getData(this.finalUrl)
 
@@ -124,6 +130,7 @@ export default {
     },
 
     searchClick() {
+
       this.searchParams.page = 1
       this.pageCount = 1
       this.finalUrl = 'https://omdbapi.com/?'
@@ -137,17 +144,32 @@ export default {
       this.dropdownPageNumber()
     },
 
-    generateFinalUrl(){
-      let params = {
-        s: this.searchParams.s,
-        y: this.searchParams.y,
-        type: this.searchParams.type,
-        page: this.searchParams.page
-      }
-      let data = new URLSearchParams(params)
-      this.finalUrl += data + this.apiKey
-    },
+    generateFinalUrl() {
+      /* let params = {
+         s: this.searchParams.s,
+         y: this.searchParams.y,
+         type: this.searchParams.type,
+         page: this.searchParams.page
+       }
+       let data = new URLSearchParams(params)
+ */
 
+      this.$router.push({
+        query: {
+          s: this.searchParams.s,
+          y: this.searchParams.y,
+          type: this.searchParams.type,
+          page: this.searchParams.page
+        }
+      })
+
+      this.sasa = new URLSearchParams(this.$route.query)
+
+
+      console.log(this.$route.query)
+
+      this.finalUrl += this.sasa + this.apiKey
+    },
 
 
   }
