@@ -43,9 +43,9 @@
     {{ errorMessage }}
     <imdb-search-card v-if="imdbResults.Response=='True'" :max="max" :min="min" class="mt-4"
                       :selectedItem="imdbResults.Search"/>
-    <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center ">
+    <div v-if="imdbResults.totalResults>5" class="d-flex justify-end align-center mt-5">
       <v-btn
-        class="pageButtons mt-1"
+        class="pageButtons "
         @click="pageDown"
         plain
         :disabled="clicked"
@@ -58,7 +58,7 @@
       <div class="pageCounter">
 
         <select
-          class="form-select ml-1"
+          class="form-select"
           @change="changePage"
           v-model=pageCount>
 
@@ -70,7 +70,7 @@
         </select>
       </div>
       <v-btn
-        class="pageButtons mt-1"
+        class="pageButtons "
         plain
         :disabled="clicked"
         @click="pageUp"
@@ -94,8 +94,9 @@ import axios from "axios";
 import imdbSearchCard from "~/components/imdb-search-components/imdb-search-card";
 
 export default {
+
           //hızlı sayfa değişince patlıyor
-          //sayfayı gösteren select kötü
+
           //kod gereksiz uzun ?
   components: {imdbSearchCard},
   data() {
@@ -251,7 +252,7 @@ export default {
 
 .form-select{
   font-weight: bold;
-
+  text-align-last:center;
   border: transparent;
   color: white;
 }
