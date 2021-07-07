@@ -8,7 +8,8 @@
           outlined
           v-model="searchParams.s"
           label="enter a title"
-        ></v-text-field>
+        >
+        </v-text-field>
       </div>
       <div class="col col-sm-12  col-lg col-md ml-5">
         <v-text-field
@@ -68,8 +69,6 @@ import imdbSearchCard from "~/components/imdb-search-components/imdb-search-card
 
 export default {
 
-  //hızlı sayfa değişince patlıyor
-  //kod gereksiz uzun ?
   components: {imdbSearchCard},
   data() {
     return {
@@ -87,13 +86,24 @@ export default {
     }
   },
 
-  /*mounted() {
-    if (this.$route.query.s!==""){
-    let sasa = new URLSearchParams(this.$route.query)
-    console.log(sasa+"")
-    this.finalUrl += sasa + this.apiKey
-    this.getData2(this.finalUrl)}
-  },*/
+  mounted() {
+
+    if (this.$route.query.s !== undefined)
+      this.searchParams.s = this.$route.query.s
+    if (this.$route.query.y !== undefined)
+      this.searchParams.y = this.$route.query.y
+    if (this.$route.query.type !== undefined)
+      this.searchParams.type = this.$route.query.type
+    this.pageCount= this.$route.query.page
+
+    if (Object.keys(this.$route.query).length !== 0) {
+      let abc = new URLSearchParams(this.$route.query)
+      this.finalUrl += abc + this.apiKey
+      this.getData2(this.finalUrl)
+    }
+  },
+
+
   methods: {
     async getData(newUrl) {
 
@@ -101,7 +111,9 @@ export default {
       this.imdbResults = response.data
       this.generateErrorMessage()
       this.dataLoaded = true
+
     },
+
 
     dropdownPageNumber() {
       this.pages = []
@@ -135,9 +147,10 @@ export default {
       this.pageCount = 1
       this.finalUrl = 'https://omdbapi.com/?'
       this.generateFinalUrl()
-      this.getData2(this.finalUrl)
+
     },
     async getData2(newUrl) {
+
       const response = await axios.get(newUrl);
       this.imdbResults = response.data
       this.generateErrorMessage()
@@ -145,30 +158,20 @@ export default {
     },
 
     generateFinalUrl() {
-      /* let params = {
-         s: this.searchParams.s,
-         y: this.searchParams.y,
-         type: this.searchParams.type,
-         page: this.searchParams.page
-       }
-       let data = new URLSearchParams(params)
- */
 
+      let data = {
+        s: this.searchParams.s,
+        y: this.searchParams.y,
+        type: this.searchParams.type,
+        page: this.searchParams.page
+      }
       this.$router.push({
-        query: {
-          s: this.searchParams.s,
-          y: this.searchParams.y,
-          type: this.searchParams.type,
-          page: this.searchParams.page
-        }
+        query: data
       })
-
-      this.sasa = new URLSearchParams(this.$route.query)
-
-
-      console.log(this.$route.query)
-
-      this.finalUrl += this.sasa + this.apiKey
+      this.abc = new URLSearchParams(data)
+      this.abc += ""
+      this.finalUrl += this.abc + this.apiKey
+      this.getData2(this.finalUrl)
     },
 
 
