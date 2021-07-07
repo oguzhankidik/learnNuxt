@@ -1,7 +1,7 @@
 <template>
-  <div  class="row">
+  <div  class="row col-10">
 
-    <div v-for="(item,index) in selectedItem" :key="index" class="card col" >
+    <div v-for="(item,index) in selectedItem" :key="index" class="card col-3" >
       <NuxtLink class="nuxtlink" :to="{name:'id-details' , params: {id:item.imdbID}}" >
       <v-img class="card-img-top mb-2" :src="item.Poster" width="280" height="400" alt="Poster can't be found."> </v-img>
       <div class="card-body">

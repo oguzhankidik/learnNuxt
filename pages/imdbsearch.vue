@@ -31,7 +31,7 @@
       <div class="col-1 col-sm-12 col-lg-1 col-md  ml-4">
         <v-btn
           outlined
-
+          :disabled="clicked"
           rounded
           x-large
           @click="searchClick"
@@ -39,22 +39,33 @@
         </v-btn>
       </div>
     </div>
+    <div class="mainScreen">
+      <v-progress-linear
+        v-if="finalUrl.length>30&&!dataLoaded"
+        :size="200"
+
+        class="loadingCircle"
+
+        indeterminate
+        color="yellow darken-2"
+      ></v-progress-linear>
+      <div  v-else>
+        <imdb-search-card class="movies mt-4"
+                          :selectedItem="imdbResults.Search"/>
 
 
-    {{ errorMessage }}
-    <imdb-search-card v-if="imdbResults.Response=='True'" class="movies ml-10 mt-4"
-                      :selectedItem="imdbResults.Search"/>
+        <div v-if="imdbResults.totalResults>10">
+          <v-pagination
 
-    <div v-if="imdbResults.totalResults>5">
-      <v-pagination
-
-        circle
-        v-model="pageCount"
-        @input="changePage"
-        class="my-3"
-        :length="pages.length"
-        total-visible="5"
-      ></v-pagination>
+            circle
+            v-model="pageCount"
+            @input="changePage"
+            class="my-3"
+            :length="pages"
+            total-visible="7"
+          ></v-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -72,14 +83,16 @@ export default {
   components: {imdbSearchCard},
   data() {
     return {
+      searchClicked: false,
       pageCount: 1,
       imdbResults: [],
+      clicked:false,
       dataLoaded: false,
       apiKey: '&apikey=6448bbcf',
       typeOption: [
         "movie", "series", "short"
       ],
-      pages: [],
+      pages: 0,
       errorMessage: '',
       searchParams: {'s': '', 'y': '', 'type': '', 'page': 1},
       finalUrl: 'https://omdbapi.com/?',
@@ -94,12 +107,13 @@ export default {
       this.searchParams.y = this.$route.query.y
     if (this.$route.query.type !== undefined)
       this.searchParams.type = this.$route.query.type
-    this.pageCount= this.$route.query.page
+    this.pageCount = parseInt(this.$route.query.page)
 
+    parseInt(this.$route.query.page)
     if (Object.keys(this.$route.query).length !== 0) {
       let abc = new URLSearchParams(this.$route.query)
       this.finalUrl += abc + this.apiKey
-      this.getData2(this.finalUrl)
+      this.getData(this.finalUrl)
     }
   },
 
@@ -111,25 +125,14 @@ export default {
       this.imdbResults = response.data
       this.generateErrorMessage()
       this.dataLoaded = true
+      this.pages = Math.ceil(this.imdbResults.totalResults / 10)
 
     },
-
-
-    dropdownPageNumber() {
-      this.pages = []
-      if (this.imdbResults.totalResults > 100) {
-        this.a = 10;
-      } else this.a = Math.ceil(this.imdbResults.totalResults / 10)
-      for (let i = 0; i < this.a; i++) {
-        this.pages[i] = i + 1;
-      }
-    },
-
     changePage() {
       this.finalUrl = 'https://omdbapi.com/?'
       this.searchParams.page = this.pageCount
       this.generateFinalUrl()
-      this.getData(this.finalUrl)
+      this.dataLoaded=false
 
 
     },
@@ -147,14 +150,12 @@ export default {
       this.pageCount = 1
       this.finalUrl = 'https://omdbapi.com/?'
       this.generateFinalUrl()
+      this.dataLoaded = false
 
-    },
-    async getData2(newUrl) {
-
-      const response = await axios.get(newUrl);
-      this.imdbResults = response.data
-      this.generateErrorMessage()
-      this.dropdownPageNumber()
+      this.clicked=true
+      setTimeout(function(){
+        this.clicked = false;
+      }.bind(this),650);
     },
 
     generateFinalUrl() {
@@ -171,7 +172,7 @@ export default {
       this.abc = new URLSearchParams(data)
       this.abc += ""
       this.finalUrl += this.abc + this.apiKey
-      this.getData2(this.finalUrl)
+      this.getData(this.finalUrl)
     },
 
 
@@ -179,5 +180,17 @@ export default {
 }
 </script>
 <style scoped>
+.movies {
+  margin: auto;
+}
 
+.loadingCircle {
+  width:90% !important;
+}
+.mainScreen{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
 </style>
